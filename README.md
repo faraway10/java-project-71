@@ -1,6 +1,9 @@
 ### Hexlet tests and linter status:
 [![Actions Status](https://github.com/faraway10/java-project-71/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/faraway10/java-project-71/actions)
 
+### Custom tests and linter status:
+[![Actions Status](https://github.com/faraway10/java-project-71/actions/workflows/custom-check.yml/badge.svg)](https://github.com/faraway10/java-project-71/actions)
+
 ### CodeClimate Maintainability Badge:
 [![Maintainability](https://api.codeclimate.com/v1/badges/91745bccc065fc61bccc/maintainability)](https://codeclimate.com/github/faraway10/java-project-71/maintainability)
 
