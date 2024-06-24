@@ -23,6 +23,7 @@ jobs:
       - run: ./gradlew checkstyleTest
       - run: ./gradlew test
       - name: Publish code coverage
+        working-directory: ./app
         uses: paambaati/codeclimate-action@v5.0.0
         env:
           CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
