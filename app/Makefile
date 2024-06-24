@@ -8,6 +8,9 @@ build:
 test:
 	./gradlew test
 
+report:
+	./gradlew jacocoTestReport
+
 # for windows
 run-dist-win:
 	.\build\install\app\bin\app
