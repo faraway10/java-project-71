@@ -7,9 +7,9 @@ import java.util.StringJoiner;
 import java.util.Objects;
 
 public class Differ {
-    public static String generate(String filePath1, String filePath2) throws Exception {
-        Map<String, String> map1 = Parser.parseFileToMap(filePath1);
-        Map<String, String> map2 = Parser.parseFileToMap(filePath2);
+    public static String generate(String filePath1, String filePath2, String format) throws Exception {
+        Map<String, Object> map1 = Parser.parseFileToMap(filePath1);
+        Map<String, Object> map2 = Parser.parseFileToMap(filePath2);
 
         List<String> allKeys = new ArrayList<String>();
         allKeys.addAll(map1.keySet());
@@ -25,15 +25,15 @@ public class Differ {
             boolean isChanged = !isEqual && !isRemoved && !isAdded;
 
             if (isEqual) {
-                result.add("    " + key + ": " + map1.get(key));
+                result.add("    " + key + ": " + Formatter.format(map1.get(key), format));
             }
 
             if (isRemoved || isChanged) {
-                result.add("  - " + key + ": " + map1.get(key));
+                result.add("  - " + key + ": " + Formatter.format(map1.get(key), format));
             }
 
             if (isAdded || isChanged) {
-                result.add("  + " + key + ": " + map2.get(key));
+                result.add("  + " + key + ": " + Formatter.format(map2.get(key), format));
             }
         }
 
