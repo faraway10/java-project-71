@@ -7,15 +7,15 @@ import formatters.Json;
 import java.util.Map;
 
 public class Formatter {
-    public static String format(Map<String, Map<String, Object>> rawCompareList, String format)
+    public static String format(Map<String, Map<String, Object>> rawCompareResult, String format)
             throws JsonProcessingException {
         switch (format) {
             case "stylish":
-                return Stylish.format(rawCompareList);
+                return Stylish.format(rawCompareResult);
             case "plain":
-                return Plain.format(rawCompareList);
+                return Plain.format(rawCompareResult);
             case "json":
-                return Json.format(rawCompareList);
+                return Json.format(rawCompareResult);
             default:
                 throw new RuntimeException("\nUnsupported style format: " + format);
         }

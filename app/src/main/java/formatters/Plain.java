@@ -5,11 +5,11 @@ import java.util.Map;
 import java.util.StringJoiner;
 
 public class Plain {
-    public static String format(Map<String, Map<String, Object>> rawCompareList) {
+    public static String format(Map<String, Map<String, Object>> rawCompareResult) {
         StringJoiner result = new StringJoiner("\n");
 
-        for (String key : rawCompareList.keySet()) {
-            Map<String, Object> map = rawCompareList.get(key);
+        for (String key : rawCompareResult.keySet()) {
+            Map<String, Object> map = rawCompareResult.get(key);
             String oldValue = convertObjToStr(map.get("oldValue"));
             String newValue = convertObjToStr(map.get("newValue"));
             String status = map.get("status").toString();

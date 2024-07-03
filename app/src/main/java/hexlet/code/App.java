@@ -8,7 +8,7 @@ import java.util.concurrent.Callable;
 @CommandLine.Command(name = "gendiff", mixinStandardHelpOptions = true, version = "gendiff 1.0",
         description = "Compares two configuration files and shows a difference.")
 
-public class App implements Callable<Integer> {
+class App implements Callable<Integer> {
     @Parameters(index = "0", paramLabel = "filepath1", description = "path to first file")
     private String filepath1;
 
@@ -16,10 +16,10 @@ public class App implements Callable<Integer> {
     private String filepath2;
 
     @Option(names = {"-V", "--version"}, versionHelp = true, description = "Print version information and exit.")
-    boolean versionInfoRequested;
+    private boolean versionInfoRequested;
 
     @Option(names = {"-h", "--help"}, usageHelp = true, description = "Show this help message and exit.")
-    boolean usageHelpRequested;
+    private boolean usageHelpRequested;
 
     @Option(names = {"-f", "--format"}, paramLabel = "format",
             defaultValue = "stylish", description = "output formats: stylish, plain, json [default: stylish]")

@@ -21,7 +21,7 @@ public class Differ {
         allKeys.addAll(map2.keySet());
         allKeys = allKeys.stream().distinct().sorted().toList();
 
-        Map<String, Map<String, Object>> rawCompareList = new LinkedHashMap<>();
+        Map<String, Map<String, Object>> rawCompareResult = new LinkedHashMap<>();
 
         for (String key : allKeys) {
             boolean isEqual = Objects.equals(map1.get(key), map2.get(key));
@@ -44,9 +44,9 @@ public class Differ {
             map.put("status", status);
             map.put("oldValue", map1.get(key));
             map.put("newValue", map2.get(key));
-            rawCompareList.put(key, map);
+            rawCompareResult.put(key, map);
         }
 
-        return Formatter.format(rawCompareList, format);
+        return Formatter.format(rawCompareResult, format);
     }
 }

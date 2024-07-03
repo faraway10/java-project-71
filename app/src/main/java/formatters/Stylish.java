@@ -4,11 +4,11 @@ import java.util.Map;
 import java.util.StringJoiner;
 
 public class Stylish {
-    public static String format(Map<String, Map<String, Object>> rawCompareList) {
+    public static String format(Map<String, Map<String, Object>> rawCompareResult) {
         StringJoiner result = new StringJoiner("\n", "{\n", "\n}");
 
-        for (String key : rawCompareList.keySet()) {
-            Map<String, Object> map = rawCompareList.get(key);
+        for (String key : rawCompareResult.keySet()) {
+            Map<String, Object> map = rawCompareResult.get(key);
             String oldValue = map.get("oldValue") != null ? map.get("oldValue").toString() : "null";
             String newValue = map.get("newValue") != null ? map.get("newValue").toString() : "null";
             String status = map.get("status").toString();

@@ -6,9 +6,9 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import java.util.Map;
 
 public class Json {
-    public static String format(Map<String, Map<String, Object>> rawCompareList) throws JsonProcessingException {
+    public static String format(Map<String, Map<String, Object>> rawCompareResult) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
-        return objectMapper.writeValueAsString(rawCompareList);
+        return objectMapper.writeValueAsString(rawCompareResult);
     }
 }
