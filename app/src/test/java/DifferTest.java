@@ -36,6 +36,21 @@ public class DifferTest {
             + "}";
 
     private final String expected3 = "{\n\n}";
+
+    private final String expected4 = """
+            Property 'chars2' was updated. From [complex value] to false
+            Property 'checked' was updated. From false to true
+            Property 'default' was updated. From null to [complex value]
+            Property 'id' was updated. From 45 to null
+            Property 'key1' was removed
+            Property 'key2' was added with value: 'value2'
+            Property 'numbers2' was updated. From [complex value] to [complex value]
+            Property 'numbers3' was removed
+            Property 'numbers4' was added with value: [complex value]
+            Property 'obj1' was added with value: [complex value]
+            Property 'setting1' was updated. From 'Some value' to 'Another value'
+            Property 'setting2' was updated. From 200 to 300
+            Property 'setting3' was updated. From true to 'none'""";
     @Test
     public void testGenerate1() throws Exception {
         String actual = Differ.generate("src/test/resources/file1.json", "src/test/resources/file2.json", "stylish");
@@ -70,5 +85,17 @@ public class DifferTest {
     public void testGenerate6() throws Exception {
         String actual = Differ.generate("src/test/resources/file11.yml", "src/test/resources/file12.yml", "stylish");
         assertEquals(expected3, actual);
+    }
+
+    @Test
+    public void testGenerate7() throws Exception {
+        String actual = Differ.generate("src/test/resources/file1.json", "src/test/resources/file2.json", "plain");
+        assertEquals(expected4, actual);
+    }
+
+    @Test
+    public void testGenerate8() throws Exception {
+        String actual = Differ.generate("src/test/resources/file7.yml", "src/test/resources/file8.yml", "plain");
+        assertEquals(expected4, actual);
     }
 }

@@ -1,10 +1,10 @@
 package hexlet.code;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
-import java.util.StringJoiner;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Objects;
+import java.util.HashMap;
 
 public class Differ {
     public static String generate(String filePath1, String filePath2, String format) throws Exception {
@@ -16,27 +16,38 @@ public class Differ {
         allKeys.addAll(map2.keySet());
         allKeys = allKeys.stream().distinct().sorted().toList();
 
-        StringJoiner result = new StringJoiner("\n", "{\n", "\n}");
+        List<Map<String, Object>> rawCompareList = new ArrayList<>();
 
         for (String key:allKeys) {
             boolean isEqual = Objects.equals(map1.get(key), map2.get(key));
             boolean isRemoved = map1.containsKey(key) && !map2.containsKey(key);
             boolean isAdded = !map1.containsKey(key) && map2.containsKey(key);
             boolean isChanged = !isEqual && !isRemoved && !isAdded;
+            String keyStatus = null;
 
             if (isEqual) {
-                result.add("    " + key + ": " + Formatter.format(map1.get(key), format));
+                keyStatus = "equal";
+            } else if (isChanged) {
+                keyStatus = "changed";
+            } else if (isRemoved) {
+                keyStatus = "removed";
+            } else {
+                keyStatus = "added";
             }
 
-            if (isRemoved || isChanged) {
-                result.add("  - " + key + ": " + Formatter.format(map1.get(key), format));
-            }
-
-            if (isAdded || isChanged) {
-                result.add("  + " + key + ": " + Formatter.format(map2.get(key), format));
-            }
+            addToRawCompareList(rawCompareList, key, map1.get(key), map2.get(key), keyStatus);
         }
 
-        return result.toString();
+        return Formatter.format(rawCompareList, format);
+    }
+
+    public static void addToRawCompareList(List<Map<String, Object>> rawCompareList,
+                                           String key, Object oldValue, Object newValue, String keyStatus) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("key", key);
+        map.put("oldValue", oldValue);
+        map.put("newValue", newValue);
+        map.put("keyStatus", keyStatus);
+        rawCompareList.add(map);
     }
 }

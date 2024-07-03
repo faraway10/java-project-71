@@ -12,3 +12,6 @@
 ![file7.yml and file8.yml](https://sun9-75.userapi.com/impg/DV4CZboBtUw0KCpCzo6nebIhVgDPZjQ8m-We2A/otW8pSycaHA.jpg?size=851x760&quality=95&sign=238694de3fd191eb7cbec07787ce863f&type=album "file7.yml and file8.yml")
 ##### Result of comparing:
 ![Result of comparing yml](https://sun1-92.userapi.com/impg/Y9GcU06lI7Fv0FUHTwQjtwvqqIOjEcDy7zaYBA/U91pfAW6Xwk.jpg?size=581x426&quality=95&sign=d974d6d0858f7069a292b3e1fa00920c&type=album "Result of comparing yml")
+
+##### Result of comparing with format option *plain* (supported for both json and yml files):
+![Result of comparing yml](https://sun9-15.userapi.com/impg/lfTagk07DP0qqHuLzVUlt0S2OaT6B0N1inKwtw/JQI0tUDxAM0.jpg?size=581x272&quality=95&sign=4d0a455a8220b0c2b613a374b3143d6e&type=album "Result of comparing yml")
