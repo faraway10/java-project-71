@@ -1,5 +1,10 @@
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import hexlet.code.Differ;
 import org.junit.jupiter.api.Test;
+
+import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DifferTest {
@@ -51,6 +56,7 @@ public class DifferTest {
             Property 'setting1' was updated. From 'Some value' to 'Another value'
             Property 'setting2' was updated. From 200 to 300
             Property 'setting3' was updated. From true to 'none'""";
+
     @Test
     public void testGenerate1() throws Exception {
         String actual = Differ.generate("src/test/resources/file1.json", "src/test/resources/file2.json", "stylish");
@@ -97,5 +103,34 @@ public class DifferTest {
     public void testGenerate8() throws Exception {
         String actual = Differ.generate("src/test/resources/file7.yml", "src/test/resources/file8.yml", "plain");
         assertEquals(expected4, actual);
+    }
+
+    @Test
+    public void testGenerate9() throws Exception {
+        String expected = """
+                {
+                  "chars1" : {
+                    "newValue" : null,
+                    "oldValue" : [ "a", "b", "c" ],
+                    "status" : "removed"
+                  },
+                  "numbers1" : {
+                    "newValue" : [ 5, 6, 7, 8 ],
+                    "oldValue" : [ 1, 2, 3, 4 ],
+                    "status" : "changed"
+                  },
+                  "setting1" : {
+                    "newValue" : "Another value",
+                    "oldValue" : "Some value",
+                    "status" : "changed"
+                  }
+                }""";
+        String actual = Differ.generate("src/test/resources/file13.json", "src/test/resources/file14.json", "json");
+
+        ObjectMapper mapper = new ObjectMapper();
+        Map<Object, Object> expectedParsed = mapper.readValue(expected, new TypeReference<Map<Object, Object>>() { });
+        Map<Object, Object> actualParsed = mapper.readValue(actual, new TypeReference<Map<Object, Object>>() { });
+
+        assertEquals(expectedParsed, actualParsed);
     }
 }

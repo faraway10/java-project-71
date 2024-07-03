@@ -1,21 +1,20 @@
 package formatters;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
 
 public class Plain {
-    public static String format(List<Map<String, Object>> rawCompareList) {
+    public static String format(Map<String, Map<String, Object>> rawCompareList) {
         StringJoiner result = new StringJoiner("\n");
 
-        for (Map<String, Object> map : rawCompareList) {
-            String key = map.get("key").toString();
+        for (String key : rawCompareList.keySet()) {
+            Map<String, Object> map = rawCompareList.get(key);
             String oldValue = convertObjToStr(map.get("oldValue"));
             String newValue = convertObjToStr(map.get("newValue"));
-            String keyStatus = map.get("keyStatus").toString();
+            String status = map.get("status").toString();
 
-            switch (keyStatus) {
+            switch (status) {
                 case "equal":
                     break;
                 case "added":
@@ -28,7 +27,7 @@ public class Plain {
                     result.add("Property '" + key + "' was updated. From " + oldValue + " to " + newValue);
                     break;
                 default:
-                    throw new RuntimeException("\nUnsupported key status: " + keyStatus);
+                    throw new RuntimeException("\nUnsupported key status: " + status);
             }
         }
 

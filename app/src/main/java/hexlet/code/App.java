@@ -22,7 +22,7 @@ public class App implements Callable<Integer> {
     boolean usageHelpRequested;
 
     @Option(names = {"-f", "--format"}, paramLabel = "format",
-            defaultValue = "stylish", description = "output format [default: stylish]")
+            defaultValue = "stylish", description = "output formats: stylish, plain, json [default: stylish]")
     private String format;
 
     public static void main(String[] args) {

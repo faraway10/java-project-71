@@ -1,0 +1,5 @@
+{
+  "setting1": "Some value",
+  "numbers1": [1, 2, 3, 4],
+  "chars1": ["a", "b", "c"]
+}

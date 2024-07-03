@@ -1,20 +1,19 @@
 package formatters;
 
-import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
 
 public class Stylish {
-    public static String format(List<Map<String, Object>> rawCompareList) {
+    public static String format(Map<String, Map<String, Object>> rawCompareList) {
         StringJoiner result = new StringJoiner("\n", "{\n", "\n}");
 
-        for (Map<String, Object> map : rawCompareList) {
-            String key = map.get("key").toString();
+        for (String key : rawCompareList.keySet()) {
+            Map<String, Object> map = rawCompareList.get(key);
             String oldValue = map.get("oldValue") != null ? map.get("oldValue").toString() : "null";
             String newValue = map.get("newValue") != null ? map.get("newValue").toString() : "null";
-            String keyStatus = map.get("keyStatus").toString();
+            String status = map.get("status").toString();
 
-            switch (keyStatus) {
+            switch (status) {
                 case "equal":
                     result.add("    " + key + ": " + newValue);
                     break;
@@ -29,7 +28,7 @@ public class Stylish {
                     result.add("  + " + key + ": " + newValue);
                     break;
                 default:
-                    throw new RuntimeException("\nUnsupported key status: " + keyStatus);
+                    throw new RuntimeException("\nUnsupported key status: " + status);
             }
         }
 

@@ -13,5 +13,8 @@
 ##### Result of comparing:
 ![Result of comparing yml](https://sun1-92.userapi.com/impg/Y9GcU06lI7Fv0FUHTwQjtwvqqIOjEcDy7zaYBA/U91pfAW6Xwk.jpg?size=581x426&quality=95&sign=d974d6d0858f7069a292b3e1fa00920c&type=album "Result of comparing yml")
 
-##### Result of comparing with format option *plain* (supported for both json and yml files):
-![Result of comparing yml](https://sun9-15.userapi.com/impg/lfTagk07DP0qqHuLzVUlt0S2OaT6B0N1inKwtw/JQI0tUDxAM0.jpg?size=581x272&quality=95&sign=4d0a455a8220b0c2b613a374b3143d6e&type=album "Result of comparing yml")
+##### Result of comparing with format option *plain*:
+![Result with plain output](https://sun9-15.userapi.com/impg/lfTagk07DP0qqHuLzVUlt0S2OaT6B0N1inKwtw/JQI0tUDxAM0.jpg?size=581x272&quality=95&sign=4d0a455a8220b0c2b613a374b3143d6e&type=album "Result with plain output")
+
+##### Result of comparing with format option *json*:
+![Result with json output](https://sun9-76.userapi.com/impg/p-_GDGfCEkG_RUv5uLwjPqfUUWRsx0SWUgZdgg/jZemZXhk76c.jpg?size=581x482&quality=95&sign=df00c7f9b55ab9685cee106bd0c89079&type=album "Result with json output")
