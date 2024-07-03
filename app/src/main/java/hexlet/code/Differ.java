@@ -8,6 +8,10 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 public class Differ {
+    public static String generate(String filePath1, String filePath2) throws Exception {
+        return generate(filePath1, filePath2, "stylish");
+    }
+
     public static String generate(String filePath1, String filePath2, String format) throws Exception {
         Map<String, Object> map1 = Parser.parseFileToMap(filePath1);
         Map<String, Object> map2 = Parser.parseFileToMap(filePath2);
