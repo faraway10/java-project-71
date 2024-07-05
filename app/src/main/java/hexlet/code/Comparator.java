@@ -14,7 +14,7 @@ public class Comparator {
         allKeys.addAll(map2.keySet());
         allKeys = allKeys.stream().distinct().sorted().toList();
 
-        Map<String, Map<String, Object>> rawCompareResult = new LinkedHashMap<>();
+        Map<String, Map<String, Object>> compareResult = new LinkedHashMap<>();
 
         for (String key : allKeys) {
             String status = null;
@@ -33,9 +33,9 @@ public class Comparator {
             map.put("status", status);
             map.put("oldValue", map1.get(key));
             map.put("newValue", map2.get(key));
-            rawCompareResult.put(key, map);
+            compareResult.put(key, map);
         }
 
-        return rawCompareResult;
+        return compareResult;
     }
 }
