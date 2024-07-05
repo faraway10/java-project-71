@@ -13,7 +13,7 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class DifferTest {
+class DifferTest {
     private static String resultStylish;
 
     private static String resultPlain;
