@@ -1,15 +1,15 @@
-package formatters;
+package hexlet.code.formatters;
 
 import java.util.Collection;
 import java.util.Map;
 import java.util.StringJoiner;
 
 public class Plain {
-    public static String format(Map<String, Map<String, Object>> rawCompareResult) {
+    public static String format(Map<String, Map<String, Object>> compareResult) {
         StringJoiner result = new StringJoiner("\n");
 
-        for (String key : rawCompareResult.keySet()) {
-            Map<String, Object> map = rawCompareResult.get(key);
+        for (String key : compareResult.keySet()) {
+            Map<String, Object> map = compareResult.get(key);
             String oldValue = convertObjToStr(map.get("oldValue"));
             String newValue = convertObjToStr(map.get("newValue"));
             String status = map.get("status").toString();

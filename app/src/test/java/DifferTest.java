@@ -1,136 +1,113 @@
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hexlet.code.Differ;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DifferTest {
-    private final String expected1 = "{\n"
-            + "    chars1: [a, b, c]\n"
-            + "  - chars2: [d, e, f]\n"
-            + "  + chars2: false\n"
-            + "  - checked: false\n"
-            + "  + checked: true\n"
-            + "  - default: null\n"
-            + "  + default: [value1, value2]\n"
-            + "  - id: 45\n"
-            + "  + id: null\n"
-            + "  - key1: value1\n"
-            + "  + key2: value2\n"
-            + "    numbers1: [1, 2, 3, 4]\n"
-            + "  - numbers2: [2, 3, 4, 5]\n"
-            + "  + numbers2: [22, 33, 44, 55]\n"
-            + "  - numbers3: [3, 4, 5]\n"
-            + "  + numbers4: [4, 5, 6]\n"
-            + "  + obj1: {nestedKey=value, isNested=true}\n"
-            + "  - setting1: Some value\n"
-            + "  + setting1: Another value\n"
-            + "  - setting2: 200\n"
-            + "  + setting2: 300\n"
-            + "  - setting3: true\n"
-            + "  + setting3: none\n"
-            + "}";
+    private static String resultStylish;
 
-    private final String expected2 = "{\n"
-            + "    host: \n"
-            + "  - proxy: \n"
-            + "  + verbose: \n"
-            + "}";
+    private static String resultPlain;
 
-    private final String expected3 = "{\n\n}";
+    private static String resultJson;
 
-    private final String expected4 = """
-            Property 'chars2' was updated. From [complex value] to false
-            Property 'checked' was updated. From false to true
-            Property 'default' was updated. From null to [complex value]
-            Property 'id' was updated. From 45 to null
-            Property 'key1' was removed
-            Property 'key2' was added with value: 'value2'
-            Property 'numbers2' was updated. From [complex value] to [complex value]
-            Property 'numbers3' was removed
-            Property 'numbers4' was added with value: [complex value]
-            Property 'obj1' was added with value: [complex value]
-            Property 'setting1' was updated. From 'Some value' to 'Another value'
-            Property 'setting2' was updated. From 200 to 300
-            Property 'setting3' was updated. From true to 'none'""";
+    private static String resultStylishEmptyValues;
+
+    private static String resultStylishEmptyFiles;
+
+    private static Path getFixturePath(String fileName) {
+        return Paths.get("src", "test", "resources", "fixtures", fileName)
+                .toAbsolutePath().normalize();
+    }
+
+    private static String readFixture(String fileName) throws Exception {
+        Path filePath = getFixturePath(fileName);
+        return Files.readString(filePath).trim();
+    }
+
+    @BeforeAll
+    public static void beforeAll() throws Exception {
+        resultJson = readFixture("result_json.json");
+        resultPlain = readFixture("result_plain.txt");
+        resultStylish = readFixture("result_stylish.txt");
+        resultStylishEmptyValues = readFixture("result_stylish_empty_values.txt");
+        resultStylishEmptyFiles = readFixture("result_stylish_empty_files.txt");
+    }
 
     @Test
-    public void testGenerate1() throws Exception {
+    public void testGenerateJsonInDefaultOut() throws Exception {
+        String actual = Differ.generate("src/test/resources/file1.json", "src/test/resources/file2.json");
+        assertEquals(resultStylish, actual);
+    }
+
+    @Test
+    public void testGenerateJsonInStylishOut() throws Exception {
         String actual = Differ.generate("src/test/resources/file1.json", "src/test/resources/file2.json", "stylish");
-        assertEquals(expected1, actual);
+        assertEquals(resultStylish, actual);
     }
 
     @Test
-    public void testGenerate2() throws Exception {
-        String actual = Differ.generate("src/test/resources/file3.json", "src/test/resources/file4.json", "stylish");
-        assertEquals(expected2, actual);
-    }
-
-    @Test
-    public void testGenerate3() throws Exception {
-        String actual = Differ.generate("src/test/resources/file5.json", "src/test/resources/file6.json", "stylish");
-        assertEquals(expected3, actual);
-    }
-
-    @Test
-    public void testGenerate4() throws Exception {
-        String actual = Differ.generate("src/test/resources/file7.yml", "src/test/resources/file8.yml", "stylish");
-        assertEquals(expected1, actual);
-    }
-
-    @Test
-    public void testGenerate5() throws Exception {
-        String actual = Differ.generate("src/test/resources/file9.yml", "src/test/resources/file10.yml", "stylish");
-        assertEquals(expected2, actual);
-    }
-
-    @Test
-    public void testGenerate6() throws Exception {
-        String actual = Differ.generate("src/test/resources/file11.yml", "src/test/resources/file12.yml", "stylish");
-        assertEquals(expected3, actual);
-    }
-
-    @Test
-    public void testGenerate7() throws Exception {
+    public void testGenerateJsonInPlainOut() throws Exception {
         String actual = Differ.generate("src/test/resources/file1.json", "src/test/resources/file2.json", "plain");
-        assertEquals(expected4, actual);
+        assertEquals(resultPlain, actual);
     }
 
     @Test
-    public void testGenerate8() throws Exception {
-        String actual = Differ.generate("src/test/resources/file7.yml", "src/test/resources/file8.yml", "plain");
-        assertEquals(expected4, actual);
-    }
-
-    @Test
-    public void testGenerate9() throws Exception {
-        String expected = """
-                {
-                  "chars1" : {
-                    "newValue" : null,
-                    "oldValue" : [ "a", "b", "c" ],
-                    "status" : "removed"
-                  },
-                  "numbers1" : {
-                    "newValue" : [ 5, 6, 7, 8 ],
-                    "oldValue" : [ 1, 2, 3, 4 ],
-                    "status" : "changed"
-                  },
-                  "setting1" : {
-                    "newValue" : "Another value",
-                    "oldValue" : "Some value",
-                    "status" : "changed"
-                  }
-                }""";
-        String actual = Differ.generate("src/test/resources/file13.json", "src/test/resources/file14.json", "json");
+    public void testGenerateJsonInJsonOut() throws Exception {
+        String actual = Differ.generate("src/test/resources/file1.json", "src/test/resources/file2.json", "json");
 
         ObjectMapper mapper = new ObjectMapper();
-        Map<Object, Object> expectedParsed = mapper.readValue(expected, new TypeReference<Map<Object, Object>>() { });
+        Map<Object, Object> expectedParsed = mapper.readValue(resultJson, new TypeReference<Map<Object, Object>>() { });
         Map<Object, Object> actualParsed = mapper.readValue(actual, new TypeReference<Map<Object, Object>>() { });
 
         assertEquals(expectedParsed, actualParsed);
+    }
+
+    @Test
+    public void testGenerateYmlInDefaultOut() throws Exception {
+        String actual = Differ.generate("src/test/resources/file7.yml", "src/test/resources/file8.yml");
+        assertEquals(resultStylish, actual);
+    }
+
+    @Test
+    public void testGenerateYmlInStylishOut() throws Exception {
+        String actual = Differ.generate("src/test/resources/file7.yml", "src/test/resources/file8.yml", "stylish");
+        assertEquals(resultStylish, actual);
+    }
+
+    @Test
+    public void testGenerateYmlInPlainOut() throws Exception {
+        String actual = Differ.generate("src/test/resources/file7.yml", "src/test/resources/file8.yml", "plain");
+        assertEquals(resultPlain, actual);
+    }
+
+    @Test
+    public void testGenerateYmlInJsonOut() throws Exception {
+        String actual = Differ.generate("src/test/resources/file7.yml", "src/test/resources/file8.yml", "json");
+
+        ObjectMapper mapper = new ObjectMapper();
+        Map<Object, Object> expectedParsed = mapper.readValue(resultJson, new TypeReference<Map<Object, Object>>() { });
+        Map<Object, Object> actualParsed = mapper.readValue(actual, new TypeReference<Map<Object, Object>>() { });
+
+        assertEquals(expectedParsed, actualParsed);
+    }
+
+    @Test
+    public void testGenerateJsonEmptyValuesInDefaultOut() throws Exception {
+        String actual = Differ.generate("src/test/resources/file3.json", "src/test/resources/file4.json");
+        assertEquals(resultStylishEmptyValues, actual);
+    }
+
+    @Test
+    public void testGenerateJsonEmptyInDefaultOut() throws Exception {
+        String actual = Differ.generate("src/test/resources/file5.json", "src/test/resources/file6.json", "stylish");
+        assertEquals(resultStylishEmptyFiles, actual);
     }
 }

@@ -1,21 +1,21 @@
 package hexlet.code;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import formatters.Stylish;
-import formatters.Plain;
-import formatters.Json;
+import hexlet.code.formatters.Stylish;
+import hexlet.code.formatters.Plain;
+import hexlet.code.formatters.Json;
 
 import java.util.Map;
 
 public class Formatter {
-    public static String format(Map<String, Map<String, Object>> rawCompareResult, String format)
+    public static String format(Map<String, Map<String, Object>> compareResult, String format)
             throws JsonProcessingException {
         switch (format) {
             case "stylish":
-                return Stylish.format(rawCompareResult);
+                return Stylish.format(compareResult);
             case "plain":
-                return Plain.format(rawCompareResult);
+                return Plain.format(compareResult);
             case "json":
-                return Json.format(rawCompareResult);
+                return Json.format(compareResult);
             default:
                 throw new RuntimeException("\nUnsupported style format: " + format);
         }
