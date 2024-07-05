@@ -3,6 +3,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import hexlet.code.Differ;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -41,73 +43,38 @@ public class DifferTest {
         resultStylishEmptyFiles = readFixture("result_stylish_empty_files.txt");
     }
 
-    @Test
-    public void testGenerateJsonInDefaultOut() throws Exception {
-        String actual = Differ.generate("src/test/resources/file1.json", "src/test/resources/file2.json");
-        assertEquals(resultStylish, actual);
-    }
+    @ParameterizedTest
+    @ValueSource(strings = {"json", "yml"})
+    public void generateTest(String format) throws Exception {
+        String filePath1 = getFixturePath("file1." + format).toString();
+        String filePath2 = getFixturePath("file2." + format).toString();
 
-    @Test
-    public void testGenerateJsonInStylishOut() throws Exception {
-        String actual = Differ.generate("src/test/resources/file1.json", "src/test/resources/file2.json", "stylish");
-        assertEquals(resultStylish, actual);
-    }
+        assertEquals(Differ.generate(filePath1, filePath2), resultStylish);
+        assertEquals(Differ.generate(filePath1, filePath2, "stylish"), resultStylish);
+        assertEquals(Differ.generate(filePath1, filePath2, "plain"), resultPlain);
 
-    @Test
-    public void testGenerateJsonInPlainOut() throws Exception {
-        String actual = Differ.generate("src/test/resources/file1.json", "src/test/resources/file2.json", "plain");
-        assertEquals(resultPlain, actual);
-    }
-
-    @Test
-    public void testGenerateJsonInJsonOut() throws Exception {
-        String actual = Differ.generate("src/test/resources/file1.json", "src/test/resources/file2.json", "json");
-
+        String actual = Differ.generate(filePath1, filePath2, "json");
         ObjectMapper mapper = new ObjectMapper();
         Map<Object, Object> expectedParsed = mapper.readValue(resultJson, new TypeReference<Map<Object, Object>>() { });
         Map<Object, Object> actualParsed = mapper.readValue(actual, new TypeReference<Map<Object, Object>>() { });
-
-        assertEquals(expectedParsed, actualParsed);
-    }
-
-    @Test
-    public void testGenerateYmlInDefaultOut() throws Exception {
-        String actual = Differ.generate("src/test/resources/file7.yml", "src/test/resources/file8.yml");
-        assertEquals(resultStylish, actual);
-    }
-
-    @Test
-    public void testGenerateYmlInStylishOut() throws Exception {
-        String actual = Differ.generate("src/test/resources/file7.yml", "src/test/resources/file8.yml", "stylish");
-        assertEquals(resultStylish, actual);
-    }
-
-    @Test
-    public void testGenerateYmlInPlainOut() throws Exception {
-        String actual = Differ.generate("src/test/resources/file7.yml", "src/test/resources/file8.yml", "plain");
-        assertEquals(resultPlain, actual);
-    }
-
-    @Test
-    public void testGenerateYmlInJsonOut() throws Exception {
-        String actual = Differ.generate("src/test/resources/file7.yml", "src/test/resources/file8.yml", "json");
-
-        ObjectMapper mapper = new ObjectMapper();
-        Map<Object, Object> expectedParsed = mapper.readValue(resultJson, new TypeReference<Map<Object, Object>>() { });
-        Map<Object, Object> actualParsed = mapper.readValue(actual, new TypeReference<Map<Object, Object>>() { });
-
-        assertEquals(expectedParsed, actualParsed);
+        assertEquals(actualParsed, expectedParsed);
     }
 
     @Test
     public void testGenerateJsonEmptyValuesInDefaultOut() throws Exception {
-        String actual = Differ.generate("src/test/resources/file3.json", "src/test/resources/file4.json");
-        assertEquals(resultStylishEmptyValues, actual);
+        String filePath1 = getFixturePath("file3.json").toString();
+        String filePath2 = getFixturePath("file4.json").toString();
+
+        String actual = Differ.generate(filePath1, filePath2);
+        assertEquals(actual, resultStylishEmptyValues);
     }
 
     @Test
     public void testGenerateJsonEmptyInDefaultOut() throws Exception {
-        String actual = Differ.generate("src/test/resources/file5.json", "src/test/resources/file6.json", "stylish");
-        assertEquals(resultStylishEmptyFiles, actual);
+        String filePath1 = getFixturePath("file5.json").toString();
+        String filePath2 = getFixturePath("file6.json").toString();
+
+        String actual = Differ.generate(filePath1, filePath2);
+        assertEquals(actual, resultStylishEmptyFiles);
     }
 }

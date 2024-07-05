@@ -25,8 +25,10 @@ public class Comparator {
                 status = "added";
             } else if (map1.containsKey(key) && !map2.containsKey(key)) {
                 status = "removed";
-            } else {
+            } else if (map1.containsKey(key) && map2.containsKey(key)) {
                 status = "changed";
+            } else {
+                throw new RuntimeException("\nUnknown key status: " + status);
             }
 
             Map<String, Object> map = new HashMap<>();

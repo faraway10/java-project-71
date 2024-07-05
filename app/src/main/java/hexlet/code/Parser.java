@@ -16,7 +16,7 @@ public class Parser {
                 ObjectMapper yamlMapper = new YAMLMapper();
                 return yamlMapper.readValue(rawString, new TypeReference<Map<String, Object>>() { });
             default:
-                throw new RuntimeException("\nUnsupported file format: " + format);
+                throw new RuntimeException("\nUnsupported data format: " + format);
         }
     }
 }
